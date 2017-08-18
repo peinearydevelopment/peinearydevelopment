@@ -1,0 +1,47 @@
+﻿@using Contracts
+@using Contracts.Blog
+
+@model ResultSet<PostSummary>
+
+@{ Layout = "_Layout"; }
+
+<div class="top-pager full-height full-width center">
+    <div class="container row">
+        <div class="button left third-width"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>Newer Posts</div>
+        <div class="center third-width">Page 2 of 5</div>
+        <div class="button right third-width">Older Posts<i class="fa fa-long-arrow-right" aria-hidden="true"></i></div>
+    </div>
+</div>
+
+<div class="container center">
+    <ul class="posts-summaries column left">
+        @foreach (var postSummary in Model.Results)
+        {
+            <li class="post-summary">
+                <h3 class="post-title">@postSummary.Title</h3>
+                <p class="post-snippet">@postSummary.ContentSummary<span class="ellipsis">...</span></p>
+                <div class="row">
+                    <div class="tags row half-width">
+                        @foreach (var tag in postSummary.Tags)
+                        {
+                            <span class="tag">@tag.Name</span>
+                        }
+                    </div>
+                    <div class="date row half-width right">
+                        <span class="day">@postSummary.PostedOn.Day</span>
+                        <span class="month">@postSummary.PostedOn.Month</span>
+                        <span class="year">'@(postSummary.PostedOn.Year % 100)</span>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+
+<div class="bottom-pager full-height full-width center">
+    <div class="container row">
+        <div class="button left third-width"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>Newer Posts</div>
+        <div class="center third-width">Page 2 of 5</div>
+        <div class="button right third-width">Older Posts<i class="fa fa-long-arrow-right" aria-hidden="true"></i></div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Html.Partial("_Styles")
+</head>
+<body>
+    <nav class="header row center">
+        <div class="container row">
+            <ul class="left half-width row">
+                <li>Home</li>
+            </ul>
+            <ul class="right half-width row">
+                <li><i class="fa fa-stack-overflow" aria-hidden="true"></i></li>
+                <li><i class="fa fa-github" aria-hidden="true"></i></li>
+                <li><i class="fa fa-rss" aria-hidden="true"></i></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="subheader center">
+        <div class="full-height container column center">
+            <h1 class="brand">Peineary Development</h1>
+            <h1 class="brand-tagline">A class above binary.</h1>
+        </div>
+    </div>
+
+    <div class="main full-height column center">
+        @RenderBody()
+    </div>
+    <div class="footer"></div>
+    <div class="copyright center">© 2017 by<span class="brand">Peineary Development</span>. All rights reserved.</div>
+</body>
+</html>
