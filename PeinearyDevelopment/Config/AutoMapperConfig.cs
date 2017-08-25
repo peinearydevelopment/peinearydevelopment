@@ -14,9 +14,16 @@ namespace PeinearyDevelopment.Config
             var mapperConfigurationExpression = new MapperConfigurationExpression();
 
             mapperConfigurationExpression.CreateMap<PostDto, PostSummary>()
-                                         .ForMember(contract => contract.ContentSummary, conf => conf.MapFrom(dto => dto.MarkdownContent.Substring(0, 255)))
-                                         .ForMember(contract => contract.CommentsCount, conf => conf.MapFrom(dto => dto.Comments.Count));
-            mapperConfigurationExpression.CreateMap<TagDto, Tag>();
+                                         .ForMember(contract => contract.ContentSummary, conf => conf.MapFrom(dto => dto.MarkdownContent.Length > 255 ? dto.MarkdownContent.Substring(0, 255) : dto.MarkdownContent))
+                                         .ForMember(contract => contract.CommentsCount, conf => conf.MapFrom(dto => dto.Comments.Count))
+                                         .ForMember(contract => contract.Tags, conf => conf.MapFrom(dto => dto.Tags));
+            mapperConfigurationExpression.CreateMap<PostTagDto, Tag>()
+                                         .ConvertUsing((dto, contract) => new Tag
+                                            {
+                                                Description = dto.Tag.Description,
+                                                Name = dto.Tag.Name,
+                                                Slug = dto.Tag.Slug
+                                            });
             mapperConfigurationExpression.CreateMap<ResultSetDto<PostDto>, ResultSet<PostSummary>>();
 
             var mapperConfiguration = new MapperConfiguration(mapperConfigurationExpression);

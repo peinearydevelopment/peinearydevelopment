@@ -1,0 +1,63 @@
+@import './framework/index';
+
+.header {
+  background-color: $black;
+  color: $text-white;
+  font-size: 1.5rem;
+  height: 5vh;
+  line-height: 2rem;
+  position: relative;
+
+  svg {
+    height: 2rem;
+    padding: 0 .75rem;
+    width: 2rem;
+
+    > g {
+      path {
+        fill: $text-white;
+      }
+    }
+  }
+}
+
+.brand {
+  background-color: $primary;
+  color: $text-white;
+  height: 20vh;
+  position: relative;
+
+  .name {
+    color: $text-white;
+    font-size: 5.5rem;
+    font-weight: 600;
+    padding-bottom: 1.5rem;
+  }
+
+  .tagline {
+    font-family: $fancy-font-name, cursive;
+    font-size: 4.8rem;
+  }
+}
+
+@import './blog/index';
+
+.footer {
+  background-color: $primary;
+  color: $text-white;
+  font-size: 4.8rem;
+  height: 10vh;
+}
+
+.copyright {
+  background-color: $black;
+  color: $text-white;
+  font-size: 1.5rem;
+  height: 5vh;
+
+  .name {
+    color: $primary;
+    font-weight: 600;
+    margin-left: .25rem;
+  }
+}

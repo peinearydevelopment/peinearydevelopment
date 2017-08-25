@@ -19,6 +19,8 @@ namespace DataAccess
         {
             var resultsTask = DbContext.Posts
                                        .AsNoTracking()
+                                       .Include(p => p.Tags)
+                                       .ThenInclude(pt => pt.Tag)
                                        .OrderByDescending(p => p.PostedOn)
                                        .Skip(pageIndex * pageSize)
                                        .Take(pageSize)

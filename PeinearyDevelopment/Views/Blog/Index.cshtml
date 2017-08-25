@@ -5,13 +5,11 @@
 
 @{ Layout = "_Layout"; }
 
-<div class="top-pager full-height full-width center">
-    <div class="container row">
-        <div class="button left third-width"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>Newer Posts</div>
-        <div class="center third-width">Page 2 of 5</div>
-        <div class="button right third-width">Older Posts<i class="fa fa-long-arrow-right" aria-hidden="true"></i></div>
-    </div>
-</div>
+@if (Model.PageIndex > 0)
+{
+    @Html.Partial("_Pager")
+}
+
 
 <div class="container center">
     <ul class="posts-summaries column left">
@@ -38,10 +36,4 @@
     </ul>
 </div>
 
-<div class="bottom-pager full-height full-width center">
-    <div class="container row">
-        <div class="button left third-width"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>Newer Posts</div>
-        <div class="center third-width">Page 2 of 5</div>
-        <div class="button right third-width">Older Posts<i class="fa fa-long-arrow-right" aria-hidden="true"></i></div>
-    </div>
-</div>
+@Html.Partial("_Pager")

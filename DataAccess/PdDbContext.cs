@@ -17,39 +17,37 @@ namespace DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CommentDto>().ToTable("Comments", "blog");
+            modelBuilder.Entity<CommentDto>(entity => entity.ToTable("Comments", "blog"));
+            modelBuilder.Entity<PostDto>(entity => entity.ToTable("Posts", "blog"));
+            modelBuilder.Entity<TagDto>(entity => entity.ToTable("Tags", "blog"));
 
-            modelBuilder.Entity<PostDto>().ToTable("Posts", "blog");
+            modelBuilder.Entity<PostTagDto>(entity =>
+            {
+                entity.ToTable("PostsTags", "blog")
+                      .HasKey(pt => new { pt.PostId, pt.TagId });
 
-            modelBuilder.Entity<TagDto>().ToTable("Tags", "blog");
+                entity.HasOne(pt => pt.Post)
+                      .WithMany(pt => pt.Tags)
+                      .HasForeignKey(pt => pt.PostId);
 
-            modelBuilder.Entity<PostTagDto>()
-                        .ToTable("PostsTags", "blog")
-                        .HasKey(pt => new { pt.PostId, pt.TagId });
+                entity.HasOne(pt => pt.Tag)
+                      .WithMany(pt => pt.Posts)
+                      .HasForeignKey(pt => pt.TagId);
+            });
 
-            modelBuilder.Entity<PostTagDto>()
-                        .HasOne(pt => pt.Post)
-                        .WithMany(pt => pt.Tags)
-                        .HasForeignKey(pt => pt.PostId);
+            modelBuilder.Entity<PostCommentDto>(entity =>
+            {
+                entity.ToTable("PostsComments", "blog")
+                      .HasKey(pt => new { pt.PostId, pt.CommentId });
 
-            modelBuilder.Entity<PostTagDto>()
-                        .HasOne(pt => pt.Tag)
-                        .WithMany(pt => pt.Posts)
-                        .HasForeignKey(pt => pt.TagId);
+                entity.HasOne(pt => pt.Post)
+                      .WithMany(pt => pt.Comments)
+                      .HasForeignKey(pt => pt.PostId);
 
-            modelBuilder.Entity<PostCommentDto>()
-                        .ToTable("PostsComments", "blog")
-                        .HasKey(pt => new { pt.PostId, pt.CommentId });
-
-            modelBuilder.Entity<PostCommentDto>()
-                        .HasOne(pt => pt.Post)
-                        .WithMany(pt => pt.Comments)
-                        .HasForeignKey(pt => pt.PostId);
-
-            modelBuilder.Entity<PostCommentDto>()
-                        .HasOne(pt => pt.Comment)
-                        .WithMany(pt => pt.Posts)
-                        .HasForeignKey(pt => pt.CommentId);
+                entity.HasOne(pt => pt.Comment)
+                      .WithMany(pt => pt.Posts)
+                      .HasForeignKey(pt => pt.CommentId);
+            });
         }
     }
 }

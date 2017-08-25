@@ -18,9 +18,12 @@ namespace PeinearyDevelopment.Controllers
             Mapper = mapper;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 5)
         {
-            return View(Mapper.Map<ResultSet<PostSummary>>(await PostsDal.Search(0, 5).ConfigureAwait(false)));
+            var postSummaries = Mapper.Map<ResultSet<PostSummary>>(await PostsDal.Search(pageIndex, pageSize).ConfigureAwait(false));
+            postSummaries.PageSize = pageSize;
+            postSummaries.PageIndex = pageIndex;
+            return View(postSummaries);
         }
     }
 }

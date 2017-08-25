@@ -3,3 +3,6 @@ obj/
 .vs/
 **/*.user
 logs/
+node_modules/
+**/wwwroot/**/*.css
+**/wwwroot/**/*.css.map

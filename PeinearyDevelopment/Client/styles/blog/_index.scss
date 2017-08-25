@@ -1,0 +1,68 @@
+.main {
+  background-color: $lighter-gray;
+
+  > .container {
+    background-color: $white;
+    border-radius: 1rem;
+    padding: 3.5vh 0;
+  }
+}
+
+@import './pager';
+
+.post-title {
+  font-size: 4rem;
+}
+
+.post-snippet {
+  color: $dark-gray;
+  font-size: 2rem;
+}
+
+.posts-summaries {
+  width: 80%;
+}
+
+.date > span,
+.tags > span {
+  margin-right: .25rem;
+}
+
+.tag {
+  background-color: $gray;
+  border-radius: .5rem;
+  color: $text-white;
+  padding: .5rem;
+}
+
+.month {
+  color: $primary;
+}
+
+.post-summary {
+  border-bottom: .3rem solid $light-primary;
+  border-radius: 1rem;
+  border-top: .3rem solid $light-primary;
+  padding: 3vh 3vw;
+  transition: box-shadow .25s, border-top .25s, border-bottom .25s;
+
+  &:hover {
+    border-bottom: .3rem solid $primary;
+    border-top: .3rem solid $primary;
+    box-shadow: .5rem .5rem 1.5rem .5rem $lighter-gray;
+    cursor: pointer;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 3vh;
+  }
+}
+
+.post-snippet,
+.post-title {
+  margin-bottom: 1vh;
+}
+
+.ellipsis {
+  color: $light-gray;
+}

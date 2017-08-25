@@ -1,0 +1,20 @@
+{
+  "name": "peineary-development",
+  "version": "0.0.1",
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "ts-node build/scss",
+    "clean": "rimraf ../wwwroot/**/*.css && rimraf ../wwwroot/**/*.css.map"
+  },
+  "devDependencies": {
+    "@types/hasha": "^3.0.0",
+    "@types/node-sass": "^3.10.32",
+    "@types/rimraf": "^2.0.2",
+    "hasha": "^3.0.0",
+    "node-sass": "^4.5.3",
+    "rimraf": "^2.6.1",
+    "sass-lint": "^1.10.2",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.4.2"
+  }
+}

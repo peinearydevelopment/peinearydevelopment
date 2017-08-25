@@ -1,0 +1,49 @@
+html {
+  font-family: 'Poly', serif;
+}
+
+.center {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 80%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.third-width {
+  width: 33%;
+}
+
+.left {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}

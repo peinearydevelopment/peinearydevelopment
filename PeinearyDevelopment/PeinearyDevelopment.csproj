@@ -5,7 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Blog\" />
+    <Compile Remove="Client\**" />
+    <Compile Remove="logs\**" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="Client\**" />
+    <Content Remove="logs\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="Client\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="Client\**" />
+    <None Remove="logs\**" />
+    <None Remove="wwwroot\**" />
   </ItemGroup>
 
   <ItemGroup>
