@@ -2,6 +2,11 @@ html {
   font-family: 'Poly', serif;
 }
 
+a {
+  color: $primary;
+  text-decoration: none;
+}
+
 .center {
   align-items: center;
   display: flex;

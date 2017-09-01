@@ -1,10 +1,13 @@
 ﻿using DataAccess;
+using DataAccess.Contracts;
 using DataAccess.Contracts.Blog;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PeinearyDevelopment.Utilities;
+using System.Net.Http;
 
 namespace PeinearyDevelopment.Config
 {
@@ -22,7 +25,10 @@ namespace PeinearyDevelopment.Config
             services.AddDbContext<PdDbContext>(options => options.UseSqlServer(configuration["ConnectionStrings:PdDbContextConnectionString"]))
                     .AddSingleton(AutoMapperConfig.Configure())
                     .AddSingleton(configuration)
-                    .AddScoped<IPostsDal, PostsDal>();
+                    .AddSingleton(new HttpClient())
+                    .AddScoped<IPageViewsDal, PageViewsDal>()
+                    .AddScoped<IPostsDal, PostsDal>()
+                    .AddScoped<IRssFeed, RssFeed>();
         }
     }
 }

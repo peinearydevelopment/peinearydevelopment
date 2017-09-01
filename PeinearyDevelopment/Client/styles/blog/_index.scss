@@ -11,6 +11,7 @@
 @import './pager';
 
 .post-title {
+  color: $black;
   font-size: 4rem;
 }
 
@@ -39,6 +40,11 @@
   color: $primary;
 }
 
+.day,
+.year {
+  color: $dark-gray;
+}
+
 .post-summary {
   border-bottom: .3rem solid $light-primary;
   border-radius: 1rem;
@@ -50,7 +56,6 @@
     border-bottom: .3rem solid $primary;
     border-top: .3rem solid $primary;
     box-shadow: .5rem .5rem 1.5rem .5rem $lighter-gray;
-    cursor: pointer;
   }
 
   &:not(:last-child) {

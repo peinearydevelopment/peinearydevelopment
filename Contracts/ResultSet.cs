@@ -1,10 +1,14 @@
 ﻿namespace Contracts
 {
-    public class ResultSet<T> : IPageable
+    public class ResultSet
     {
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
-        public T[] Results { get; set; }
         public int TotalResults { get; set; }
+    }
+
+    public class ResultSet<T> : ResultSet
+    {
+        public T[] Results { get; set; }
     }
 }

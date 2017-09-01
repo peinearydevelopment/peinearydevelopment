@@ -1,0 +1,32 @@
+﻿@using Contracts.Blog
+@using Markdig;
+
+@model Post
+
+@{ Layout = "_Layout"; }
+
+@if (Model.PreviousPost != null || Model.NextPost != null)
+{
+    @Html.Partial("_Navigator")
+}
+
+<div class="container center column post">
+    <h3 class="post-title">@Model.Title</h3>
+    <div class="row tag-date-row half-width">
+        <div class="tags row half-width">
+            @foreach (var tag in Model.Tags)
+            {
+                <span class="tag">@tag.Name</span>
+            }
+        </div>
+        @Html.Partial("_PostedOn")
+    </div>
+    <section class="container post-content">
+        @Html.Raw(Markdown.ToHtml(Model.MarkdownContent))
+    </section>
+</div>
+
+@if (Model.PreviousPost != null || Model.NextPost != null)
+{
+    @Html.Partial("_Navigator")
+}

@@ -15,9 +15,8 @@ namespace DataAccess.Contracts.Blog
         public string Slug { get; set; }
         public ICollection<PostTagDto> Tags { get; set; }
         public DateTimeOffset CreatedOn { get; set; }
-        public DateTimeOffset LastUpdatedOn { get; set; }
-        public DateTimeOffset PostedOn { get; set; }
-        public int Views { get; set; }
+        public DateTimeOffset? LastUpdatedOn { get; set; }
+        public DateTimeOffset? PostedOn { get; set; }
         public ICollection<PostCommentDto> Comments { get; set; }
     }
 }

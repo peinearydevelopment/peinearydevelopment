@@ -1,4 +1,5 @@
-﻿using DataAccess.Contracts.Blog;
+﻿using DataAccess.Contracts;
+using DataAccess.Contracts.Blog;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
@@ -8,8 +9,11 @@ namespace DataAccess
         public DbSet<CommentDto> Comments{ get; set; }
         public DbSet<PostDto> Posts { get; set; }
         public DbSet<TagDto> Tags{ get; set; }
+        public DbSet<PageViewDto> PageViews { get; set; }
 
-        public PdDbContext() {}
+        public PdDbContext()
+        {
+        }
 
         public PdDbContext(DbContextOptions<PdDbContext> options) : base(options)
         {

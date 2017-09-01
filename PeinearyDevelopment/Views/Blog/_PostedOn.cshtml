@@ -1,0 +1,10 @@
+﻿@using Contracts;
+@using System.Globalization;
+
+@model IPostable
+
+<div class="date row half-width right">
+    <span class="day">@Model.PostedOn.Day</span>
+    <span class="month">@CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(Model.PostedOn.Month)</span>
+    <span class="year">'@(Model.PostedOn.Year % 100)</span>
+</div>

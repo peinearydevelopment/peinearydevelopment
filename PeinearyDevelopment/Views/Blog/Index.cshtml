@@ -1,9 +1,10 @@
-﻿@using Contracts
-@using Contracts.Blog
+﻿@using Contracts;
+@using Contracts.Blog;
 
 @model ResultSet<PostSummary>
 
 @{ Layout = "_Layout"; }
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @if (Model.PageIndex > 0)
 {
@@ -16,8 +17,10 @@
         @foreach (var postSummary in Model.Results)
         {
             <li class="post-summary">
-                <h3 class="post-title">@postSummary.Title</h3>
-                <p class="post-snippet">@postSummary.ContentSummary<span class="ellipsis">...</span></p>
+                <a asp-controller="Blog" asp-action="Post" asp-route-id=@postSummary.Slug>
+                    <h3 class="post-title">@postSummary.Title</h3>
+                    <p class="post-snippet">@postSummary.ContentSummary<span class="ellipsis">...</span></p>
+                </a>
                 <div class="row">
                     <div class="tags row half-width">
                         @foreach (var tag in postSummary.Tags)
@@ -25,11 +28,7 @@
                             <span class="tag">@tag.Name</span>
                         }
                     </div>
-                    <div class="date row half-width right">
-                        <span class="day">@postSummary.PostedOn.Day</span>
-                        <span class="month">@postSummary.PostedOn.Month</span>
-                        <span class="year">'@(postSummary.PostedOn.Year % 100)</span>
-                    </div>
+                    @Html.Partial("_PostedOn", postSummary)
                 </div>
             </li>
         }

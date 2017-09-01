@@ -1,0 +1,36 @@
+﻿@using Contracts.Blog;
+@model Post
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="pager full-height full-width center">
+    <div class="container row">
+        @if (Model.NextPost != null)
+        {
+            <a class="button left third-width" asp-controller="Blog" asp-action="Post" asp-route-id=@Model.NextPost.Slug>
+                <svg>
+                    <path d="M0.75,10L6,4.5V8h13v4H6v3.5L0.75,10z" />
+                </svg>
+                @Model.NextPost.Title
+            </a>
+        }
+        else
+        {
+            <div class="left third-width"></div>
+        }
+        <div class="center third-width"></div>
+        @if (Model.PreviousPost != null)
+        {
+            <a class="button right third-width" asp-controller="Blog" asp-action="Post" asp-route-id=@Model.PreviousPost.Slug>
+                @Model.PreviousPost.Title
+                <svg>
+                    <path d="M14,15.5V12H1V8h13V4.5l5.25,5.5L14,15.5z" />
+                </svg>
+             </a>
+         }
+         else
+         {
+             <div class="right third-width"></div>
+         }
+    </div>
+</div>
