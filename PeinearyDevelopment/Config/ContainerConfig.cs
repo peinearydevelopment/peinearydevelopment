@@ -21,14 +21,15 @@ namespace PeinearyDevelopment.Config
             }
 
             services.AddMvc();
+            services.AddMemoryCache();
 
             services.AddDbContext<PdDbContext>(options => options.UseSqlServer(configuration["ConnectionStrings:PdDbContextConnectionString"]))
                     .AddSingleton(AutoMapperConfig.Configure())
                     .AddSingleton(configuration)
                     .AddSingleton(new HttpClient())
-                    .AddScoped<IPageViewsDal, PageViewsDal>()
                     .AddScoped<IPostsDal, PostsDal>()
-                    .AddScoped<IRssFeed, RssFeed>();
+                    .AddScoped<IRssFeed, RssFeed>()
+                    .AddScoped<ISiteStatisticsDal, SiteStatisticsDal>();
         }
     }
 }

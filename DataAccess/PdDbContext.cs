@@ -9,7 +9,8 @@ namespace DataAccess
         public DbSet<CommentDto> Comments{ get; set; }
         public DbSet<PostDto> Posts { get; set; }
         public DbSet<TagDto> Tags{ get; set; }
-        public DbSet<PageViewDto> PageViews { get; set; }
+        public DbSet<IpInformationDto> IpInformations { get; set; }
+        public DbSet<ActionTakenDto> ActionsTaken { get; set; }
 
         public PdDbContext()
         {
@@ -24,6 +25,8 @@ namespace DataAccess
             modelBuilder.Entity<CommentDto>(entity => entity.ToTable("Comments", "blog"));
             modelBuilder.Entity<PostDto>(entity => entity.ToTable("Posts", "blog"));
             modelBuilder.Entity<TagDto>(entity => entity.ToTable("Tags", "blog"));
+            modelBuilder.Entity<IpInformationDto>(entity => entity.ToTable("IpInformation", "stats"));
+            modelBuilder.Entity<ActionTakenDto>(entity => entity.ToTable("ActionsTaken", "stats"));
 
             modelBuilder.Entity<PostTagDto>(entity =>
             {

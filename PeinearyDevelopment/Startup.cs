@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PeinearyDevelopment.Config;
+using PeinearyDevelopment.Middleware;
 
 namespace PeinearyDevelopment
 {
@@ -29,6 +30,7 @@ namespace PeinearyDevelopment
 
             app.UseStaticFiles()
                .ConfigureErrorPage(env)
+               .UseMiddleware<UidCookieMiddleware>()
                .UseMvc(routes => routes.MapRoute(name: "default", template: "{controller=Blog}/{action=Index}/{id?}"));
         }
     }

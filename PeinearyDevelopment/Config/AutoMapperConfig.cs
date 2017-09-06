@@ -4,6 +4,7 @@ using Contracts;
 using Contracts.Blog;
 using DataAccess.Contracts;
 using DataAccess.Contracts.Blog;
+using System;
 
 namespace PeinearyDevelopment.Config
 {
@@ -29,6 +30,10 @@ namespace PeinearyDevelopment.Config
                                                 Slug = dto.Tag.Slug
                                             });
             mapperConfigurationExpression.CreateMap<ResultSetDto<PostDto>, ResultSet<PostSummary>>();
+            mapperConfigurationExpression.CreateMap<IpInformation, IpInformationDto>()
+                                         .ForMember(dto => dto.IpType, conf => conf.MapFrom(contract => contract.IpType.ToString()));
+            mapperConfigurationExpression.CreateMap<IpInformationDto, IpInformation>()
+                                         .ForMember(contract => contract.IpType, dto => dto.MapFrom(contract => (IpType)Enum.Parse(typeof(IpType), contract.IpType)));
 
             var mapperConfiguration = new MapperConfiguration(mapperConfigurationExpression);
             return new Mapper(mapperConfiguration);
