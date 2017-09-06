@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,8 +30,14 @@ namespace PeinearyDevelopment
             loggerFactory.Configure(Configuration);
 
             app.UseStaticFiles()
-               .ConfigureErrorPage(env)
-               .UseMiddleware<UidCookieMiddleware>()
+               .ConfigureErrorPage(env);
+
+            if (env.EnvironmentName == EnvironmentName.Production)
+            {
+                app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
+            }
+
+            app.UseMiddleware<UidCookieMiddleware>()
                .UseMvc(routes => routes.MapRoute(name: "default", template: "{controller=Blog}/{action=Index}/{id?}"));
         }
     }
