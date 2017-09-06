@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -12,7 +14,9 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    @*<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">*@
+    <environment names="Production">
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    </environment>
 
     <link rel="shortcut icon" href="/favicon.ico">
 
@@ -34,7 +38,7 @@
     
     <!-- 
         https://developers.google.com/search/docs/guides/intro-structured-data?visit_id=1-636398812205869023-2120543655&hl=en&rd=1
-
+        http://schema.org/WebSite
         <script type="application/ld+json">
             {
             "@@context": "http://schema.org",

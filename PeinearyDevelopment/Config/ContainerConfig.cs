@@ -29,6 +29,7 @@ namespace PeinearyDevelopment.Config
                     .AddSingleton(new HttpClient())
                     .AddScoped<IPostsDal, PostsDal>()
                     .AddScoped<IRssFeed, RssFeed>()
+                    .AddScoped<ISitemap, Sitemap>()
                     .AddScoped<ISiteStatisticsDal, SiteStatisticsDal>();
         }
     }

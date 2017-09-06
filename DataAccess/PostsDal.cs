@@ -25,6 +25,18 @@ namespace DataAccess
                             .FirstOrDefaultAsync(predicate);
         }
 
+        public Task<PostDto[]> ReadMany(Expression<Func<PostDto, bool>> predicate)
+        {
+            return DbContext.Posts
+                            .AsNoTracking()
+                            .Include(p => p.Tags)
+                                .ThenInclude(pt => pt.Tag)
+                            .Include(p => p.Comments)
+                                .ThenInclude(pc => pc.Comment)
+                            .Where(predicate)
+                            .ToArrayAsync();
+        }
+
         public Task<PostDto> ReadPrevious(DateTimeOffset postedOn)
         {
             return DbContext.Posts

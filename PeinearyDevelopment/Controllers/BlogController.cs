@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
 using Contracts.Blog;
-using DataAccess.Contracts;
 using DataAccess.Contracts.Blog;
 using Microsoft.AspNetCore.Mvc;
 using PeinearyDevelopment.Utilities;
@@ -14,12 +13,14 @@ namespace PeinearyDevelopment.Controllers
         private IPostsDal PostsDal { get; }
         private IMapper Mapper { get; }
         private IRssFeed RssFeed { get; }
+        private ISitemap SitemapGenerator { get; }
 
-        public BlogController(IPostsDal postsDal, IMapper mapper, IRssFeed rssFeed)
+        public BlogController(IPostsDal postsDal, IMapper mapper, IRssFeed rssFeed, ISitemap sitemapGenerator)
         {
             PostsDal = postsDal;
             Mapper = mapper;
             RssFeed = rssFeed;
+            SitemapGenerator = sitemapGenerator;
         }
 
         public async Task<IActionResult> Index([FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 5)
@@ -41,5 +42,6 @@ namespace PeinearyDevelopment.Controllers
         }
 
         public async Task<ContentResult> Rss() => Content(await RssFeed.Generate().ConfigureAwait(false), "application/xml");
+        public async Task<ContentResult> Sitemap() => Content(await SitemapGenerator.Generate().ConfigureAwait(false), "application/xml");
     }
 }
