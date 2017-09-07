@@ -3,14 +3,13 @@
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-@if (Model.TotalResults / Model.PageSize > 0)
+@if (Model.TotalPageCount > 0)
 {
-    var totalNumberOfPages = Model.TotalResults % Model.PageSize == 0 ? Model.TotalResults / Model.PageSize : (Model.TotalResults / Model.PageSize) + 1;
     <div class="pager full-height full-width center">
         <div class="container row">
-            @if (Model.PageIndex != 0)
+            @if (!Model.IsOnFirstPage)
             {
-                <a class="button left third-width" asp-controller="Blog" asp-action="Index" asp-route-pageindex=@(Model.PageIndex - 1)>
+                <a class="button left third-width" asp-controller="Blog" asp-action="Index" asp-route-id=@(Model.PageIndex - 1)>
                     <svg>
                         <path d="M0.75,10L6,4.5V8h13v4H6v3.5L0.75,10z" />
                     </svg>
@@ -21,10 +20,10 @@
             {
                 <div class="left third-width"></div>
             }
-            <div class="center third-width">Page @(Model.PageIndex + 1) of @totalNumberOfPages</div>
-            @if (Model.PageIndex + 1 != totalNumberOfPages)
+            <div class="center third-width">Page @(Model.PageIndex + 1) of @Model.TotalPageCount</div>
+            @if (!Model.IsOnLastPage)
             {
-                <a class="button right third-width" asp-controller="Blog" asp-action="Index" asp-route-pageindex=@(Model.PageIndex + 1)>
+                <a class="button right third-width" asp-controller="Blog" asp-action="Index" asp-route-id=@(Model.PageIndex + 1)>
                     Older Posts
                     <svg>
                         <path d="M14,15.5V12H1V8h13V4.5l5.25,5.5L14,15.5z" />

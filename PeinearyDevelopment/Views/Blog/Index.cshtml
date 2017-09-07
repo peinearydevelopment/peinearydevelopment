@@ -6,6 +6,32 @@
 @{ Layout = "_Layout"; }
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+@section links {
+    @if (Model.PageIndex == 1)
+    {
+        <link rel="prev" href="https://peinearydevelopment.com/blog/index">
+    }
+    else if (Model.HasPreviousPage)
+    {
+        <link rel="prev" href="https://peinearydevelopment.com/blog/index/@(Model.PageIndex - 1)">
+    }
+
+    @if (Model.IsOnFirstPage)
+    {
+        <link rel="canonical" href="https://peinearydevelopment.com/blog/index">
+    }
+    else
+    {
+        <link rel="canonical" href="https://peinearydevelopment.com/blog/index/@Model.PageIndex">
+    }
+
+    @if (Model.HasNextPage)
+    {
+        <link rel="next" href="http://peinearydevelopment.com/page/blog/index/@(Model.PageIndex + 1)">
+
+    }
+}
+
 @if (Model.PageIndex > 0)
 {
     @Html.Partial("_Pager")

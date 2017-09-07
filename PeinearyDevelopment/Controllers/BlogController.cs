@@ -23,11 +23,11 @@ namespace PeinearyDevelopment.Controllers
             SitemapGenerator = sitemapGenerator;
         }
 
-        public async Task<IActionResult> Index([FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 5)
+        public async Task<IActionResult> Index(int id = 0, [FromQuery] int pageSize = 5)
         {
-            var postSummaries = Mapper.Map<ResultSet<PostSummary>>(await PostsDal.Search(pageIndex, pageSize).ConfigureAwait(false));
+            var postSummaries = Mapper.Map<ResultSet<PostSummary>>(await PostsDal.Search(id, pageSize).ConfigureAwait(false));
             postSummaries.PageSize = pageSize;
-            postSummaries.PageIndex = pageIndex;
+            postSummaries.PageIndex = id;
 
             return View(postSummaries);
         }

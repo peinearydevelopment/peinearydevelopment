@@ -11,6 +11,7 @@ namespace Contracts.Blog
         public DateTimeOffset PostedOn { get; set; }
         public int Views { get; set; }
         public Comment[] Comments { get; set; }
+        public string Slug { get; set; }
 
         public NavigationPost NextPost { get; set; }
         public NavigationPost PreviousPost { get; set; }
