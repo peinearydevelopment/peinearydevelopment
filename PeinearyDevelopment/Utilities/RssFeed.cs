@@ -12,7 +12,6 @@ namespace PeinearyDevelopment.Utilities
     {
         private IPostsDal PostsDal { get; }
         private XmlDocument Document { get; }
-        private const string RootUrl = "https://peinearydevelopment.com";
 
         public RssFeed(IPostsDal postsDal)
         {
@@ -46,7 +45,7 @@ namespace PeinearyDevelopment.Utilities
             var channelElement = Document.CreateElement("channel");
             channelElement.AppendChild(GenerateElementWithCData("title", "Peineary Development"));
             channelElement.AppendChild(GenerateElementWithCData("description", "A Class Above Binary"));
-            channelElement.AppendChild(GenerateElementWithInnerText("link", RootUrl));
+            channelElement.AppendChild(GenerateElementWithInnerText("link", Constants.RootBlogUrl));
             channelElement.AppendChild(GenerateElementWithInnerText("lastBuildDate", DateTime.UtcNow.ToString("R")));
             channelElement.AppendChild(GenerateAtomLinkElement());
             channelElement.AppendChild(GenerateElementWithInnerText("ttl", "60"));
@@ -63,7 +62,7 @@ namespace PeinearyDevelopment.Utilities
         private XmlElement GenerateAtomLinkElement()
         {
             var atomLinkElement = Document.CreateElement("atom:link");
-            atomLinkElement.SetAttribute("href", "https://peinearydevelopment.com/rss/");
+            atomLinkElement.SetAttribute("href", $"{Constants.RootBlogUrl}/rss/");
             atomLinkElement.SetAttribute("rel", "self");
             atomLinkElement.SetAttribute("type", "application/rss+xml");
             return atomLinkElement;
@@ -74,7 +73,7 @@ namespace PeinearyDevelopment.Utilities
             var itemElement = Document.CreateElement("item");
             itemElement.AppendChild(GenerateElementWithCData("title", post.Title));
             itemElement.AppendChild(GenerateElementWithCData("description", post.MarkdownContent.Substring(0, 255)));
-            itemElement.AppendChild(GenerateElementWithInnerText("link", $"{RootUrl}/{post.Slug}"));
+            itemElement.AppendChild(GenerateElementWithInnerText("link", $"{Constants.RootBlogUrl}/{post.Slug}"));
             foreach (var tag in post.Tags)
             {
                 itemElement.AppendChild(GenerateElementWithCData("category", tag.Tag.Name));

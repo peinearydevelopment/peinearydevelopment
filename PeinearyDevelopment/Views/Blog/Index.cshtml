@@ -1,5 +1,6 @@
 ﻿@using Contracts;
 @using Contracts.Blog;
+@using PeinearyDevelopment;
 
 @model ResultSet<PostSummary>
 
@@ -9,34 +10,49 @@
 @section links {
     @if (Model.PageIndex == 1)
     {
-        <link rel="prev" href="https://peinearydevelopment.com/blog/index">
+        <link rel="prev" href="@Constants.RootBlogUrl/blog/index">
     }
     else if (Model.HasPreviousPage)
     {
-        <link rel="prev" href="https://peinearydevelopment.com/blog/index/@(Model.PageIndex - 1)">
+        <link rel="prev" href="@Constants.RootBlogUrl/blog/index/@(Model.PageIndex - 1)">
     }
 
     @if (Model.IsOnFirstPage)
     {
-        <link rel="canonical" href="https://peinearydevelopment.com/blog/index">
+        <link rel="canonical" href="@Constants.RootBlogUrl/blog/index">
     }
     else
     {
-        <link rel="canonical" href="https://peinearydevelopment.com/blog/index/@Model.PageIndex">
+        <link rel="canonical" href="@Constants.RootBlogUrl/blog/index/@Model.PageIndex">
     }
 
     @if (Model.HasNextPage)
     {
-        <link rel="next" href="http://peinearydevelopment.com/page/blog/index/@(Model.PageIndex + 1)">
+        <link rel="next" href="@Constants.RootBlogUrl/page/blog/index/@(Model.PageIndex + 1)">
 
     }
+}
+
+@section schema {
+<!--
+    https://developers.google.com/search/docs/guides/intro-structured-data?visit_id=1-636398812205869023-2120543655&hl=en&rd=1
+    http://schema.org/WebSite
+-->
+    <script type="application/ld+json">
+        {
+        "@@context": "http://schema.org",
+        "@@type": "Website",
+        "publisher": "Peineary Development",
+        "url": "@Constants.RootBlogUrl",
+        "description": "A Class Above Binary"
+        }
+    </script>
 }
 
 @if (Model.PageIndex > 0)
 {
     @Html.Partial("_Pager")
 }
-
 
 <div class="container center">
     <ul class="posts-summaries column left">

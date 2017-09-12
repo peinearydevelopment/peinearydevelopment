@@ -1,5 +1,6 @@
 ﻿@using Contracts.Blog
 @using Markdig;
+@using PeinearyDevelopment;
 
 @model Post
 
@@ -9,14 +10,61 @@
 @section links {
     @if (Model.PreviousPost != null)
     {
-        <link rel="prev" href="http://peinearydevelopment.com/blog/post/@Model.PreviousPost.Slug">
+        <link rel="prev" href="@Constants.RootBlogUrl/blog/post/@Model.PreviousPost.Slug">
     }
-    <link rel="canonical" href="https://peinearydevelopment.com/blog/post/@Model.Slug">
+    <link rel="canonical" href="@Constants.RootBlogUrl/blog/post/@Model.Slug">
     @if (Model.NextPost != null)
     {
-        <link rel="next" href="http://peinearydevelopment.com/blog/post/@Model.NextPost.Slug">
+        <link rel="next" href="@Constants.RootBlogUrl/blog/post/@Model.NextPost.Slug">
     }
 }
+
+@section schema {
+    <script type="application/ld+json">
+        {
+            "@@context": "http://schema.org",
+            "@@type": "Article",
+            "publisher": "Peineary Development",
+            "author": {
+                "@@type": "Person",
+                "name": "Peineary Development"@*,
+                "url": "@Constants.RootBlogUrl/author/peinearydevelopment/"*@
+            },
+            "headline": "@Model.Title",
+            "url": "@Constants.RootBlogUrl/@Model.Slug/",
+            "datePublished": "@Model.PostedOn.ToString("R")",
+            "dateModified": "@Model.PostedOn.ToString("R")", @*add update so it can be either posted or updated date*@
+            "keywords": "@string.Join(",", Model.Tags.Select(tag => tag.Name))",
+            "description": "@Model.MarkdownContent.Substring(0, 255)"
+        }
+    </script>
+
+}
+
+@*
+<title>Multi-themed Web Project: Back-end</title>
+<meta name="description" content="">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Multi-themed Web Project: Back-end">
+<meta property="og:description" content="As mentioned in my introductory post on this topic, there are three main areas that I see specific concerns regarding approaching this type of a problem. The database and its data: its access/security.   The server side portion of the application.   The client side portion of the application. I outlined">
+<meta property="og:url" content="http://peinearydevelopment.azurewebsites.net/multi-themed-web-project-back-end/">
+<meta property="article:published_time" content="2017-07-21T15:56:16.496Z">
+<meta property="article:modified_time" content="2017-07-21T15:56:16.496Z">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="aurelia-cli">
+<meta property="article:tag" content="ASP.NET Core">
+<meta property="article:tag" content="multi-themed application">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Multi-themed Web Project: Back-end">
+<meta name="twitter:description" content="As mentioned in my introductory post on this topic, there are three main areas that I see specific concerns regarding approaching this type of a problem. The database and its data: its access/security.   The server side portion of the application.   The client side portion of the application. I outlined">
+<meta name="twitter:url" content="http://peinearydevelopment.azurewebsites.net/multi-themed-web-project-back-end/">
+<meta name="twitter:label1" content="Written by">
+<meta name="twitter:data1" content="PeinearyDevelopment">
+<meta name="twitter:label2" content="Filed under">
+<meta name="twitter:data2" content="Angular, aurelia-cli, ASP.NET Core, multi-themed application">
+*@
+
 
 @if (Model.PreviousPost != null || Model.NextPost != null)
 {

@@ -10,7 +10,6 @@ namespace PeinearyDevelopment.Utilities
     {
         private IPostsDal PostsDal { get; }
         private XmlDocument Document { get; }
-        private const string RootUrl = "https://peinearydevelopment.com";
 
         public Sitemap(IPostsDal postsDal)
         {
@@ -35,7 +34,7 @@ namespace PeinearyDevelopment.Utilities
             foreach (var post in await PostsDal.ReadMany(p => true).ConfigureAwait(false))
             {
                 var urlElement = Document.CreateElement("url");
-                urlElement.AppendChild(GenerateElementWithInnerText("loc", $"{RootUrl}/{post.Slug}"));
+                urlElement.AppendChild(GenerateElementWithInnerText("loc", $"{Constants.RootBlogUrl}/{post.Slug}"));
                 if (post.LastUpdatedOn.HasValue)
                 {
                     urlElement.AppendChild(GenerateElementWithInnerText("lastmod", post.LastUpdatedOn.Value.ToString("yyyy-MM-dd")));
