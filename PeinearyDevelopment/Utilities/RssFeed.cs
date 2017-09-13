@@ -43,8 +43,8 @@ namespace PeinearyDevelopment.Utilities
         private async Task<XmlElement> GenerateChannelElement()
         {
             var channelElement = Document.CreateElement("channel");
-            channelElement.AppendChild(GenerateElementWithCData("title", "Peineary Development"));
-            channelElement.AppendChild(GenerateElementWithCData("description", "A Class Above Binary"));
+            channelElement.AppendChild(GenerateElementWithCData("title", Constants.BlogTitle));
+            channelElement.AppendChild(GenerateElementWithCData("description", Constants.BlogTagLine));
             channelElement.AppendChild(GenerateElementWithInnerText("link", Constants.RootBlogUrl));
             channelElement.AppendChild(GenerateElementWithInnerText("lastBuildDate", DateTime.UtcNow.ToString("R")));
             channelElement.AppendChild(GenerateAtomLinkElement());

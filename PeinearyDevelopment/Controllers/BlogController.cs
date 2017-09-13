@@ -37,7 +37,7 @@ namespace PeinearyDevelopment.Controllers
             var post = Mapper.Map<Post>(await PostsDal.Read(p => p.Slug == id).ConfigureAwait(false));
             post.PreviousPost = Mapper.Map<NavigationPost>(await PostsDal.ReadPrevious(post.PostedOn).ConfigureAwait(false));
             post.NextPost = Mapper.Map<NavigationPost>(await PostsDal.ReadNext(post.PostedOn).ConfigureAwait(false));
-
+            ViewBag.Title = post.Title;
             return View(post);
         }
 

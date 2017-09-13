@@ -7,6 +7,17 @@
 @{ Layout = "_Layout"; }
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+@section meta {
+    <meta name="description" content="@Constants.BlogTagLine">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@Constants.BlogTitle">
+    <meta property="og:description" content="@Constants.BlogTagLine">
+    <meta property="og:url" content="@Constants.RootBlogUrl/">
+    <meta name="twitter:title" content="@Constants.BlogTitle">
+    <meta name="twitter:description" content="@Constants.BlogTagLine">
+    <meta name="twitter:url" content="@Constants.RootBlogUrl/">
+}
+
 @section links {
     @if (Model.PageIndex == 1)
     {
@@ -42,9 +53,9 @@
         {
         "@@context": "http://schema.org",
         "@@type": "Website",
-        "publisher": "Peineary Development",
+        "publisher": "@Constants.BlogTitle",
         "url": "@Constants.RootBlogUrl",
-        "description": "A Class Above Binary"
+        "description": "@Constants.BlogTagLine"
         }
     </script>
 }
