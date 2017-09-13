@@ -4,12 +4,14 @@
   "scripts": {
     "prebuild": "npm run clean",
     "build": "ts-node build/scss",
-    "clean": "rimraf ../wwwroot/**/*.css && rimraf ../wwwroot/**/*.css.map"
+    "postbuild": "copyfiles -f styles/icons.svg ../wwwroot/fonts && copyfiles -f robots.txt ../wwwroot",
+    "clean": "rimraf ../wwwroot/**/*.css && rimraf ../wwwroot/**/*.css.map && rimraf ../wwwroot/**/*.svg && rimraf ../wwwroot/**/*.txt"
   },
   "devDependencies": {
     "@types/hasha": "^3.0.0",
     "@types/node-sass": "^3.10.32",
     "@types/rimraf": "^2.0.2",
+    "copyfiles": "^1.2.0",
     "hasha": "^3.0.0",
     "node-sass": "^4.5.3",
     "rimraf": "^2.6.1",

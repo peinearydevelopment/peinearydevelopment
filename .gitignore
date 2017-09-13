@@ -6,3 +6,5 @@ logs/
 node_modules/
 **/wwwroot/**/*.css
 **/wwwroot/**/*.css.map
+**/wwwroot/**/*.svg
+**/wwwroot/**/*.txt

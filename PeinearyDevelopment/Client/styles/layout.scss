@@ -18,6 +18,28 @@
         fill: $text-white;
       }
     }
+
+    &.stack-overflow:hover {
+      .so-base {
+          fill: $stack-overflow-gray;
+      }
+
+      .so-stack {
+        fill: $stack-overflow-orange;
+      }
+    }
+
+    // &.github:hover {
+    //   path {
+    //     fill: purple;
+    //   }
+    // }
+
+    &.rss:hover {
+      path {
+        fill: $primary;
+      }
+    }
   }
 }
 
