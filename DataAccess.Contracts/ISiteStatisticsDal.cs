@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace DataAccess.Contracts
 {
     public interface ISiteStatisticsDal
     {
-        Task<IpInformationDto> EnsureExistsAndGet(IpInformationDto ipInformation);
-        Task SaveAction(ActionTakenDto action);
+        Task<IpInformationDto> EnsureExistsAndGet(IpInformationDto ipInformation, CancellationToken cancellationToken = default(CancellationToken));
+        Task SaveAction(ActionTakenDto action, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

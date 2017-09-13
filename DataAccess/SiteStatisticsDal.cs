@@ -2,6 +2,7 @@
 using DataAccess.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading;
 
 namespace DataAccess
 {
@@ -11,7 +12,7 @@ namespace DataAccess
 
         public SiteStatisticsDal(PdDbContext dbContext) => DbContext = dbContext;
 
-        public async Task<IpInformationDto> EnsureExistsAndGet(IpInformationDto ipInformation)
+        public async Task<IpInformationDto> EnsureExistsAndGet(IpInformationDto ipInformation, CancellationToken cancellationToken = default(CancellationToken))
         {
             var dbIpInformation = await DbContext.IpInformations
                                                  .Where(ip => ip.Ip == ipInformation.Ip)
@@ -29,7 +30,7 @@ namespace DataAccess
                                                  .Where(ip => ip.OrganizationName == ipInformation.OrganizationName)
                                                  .Where(ip => ip.Region == ipInformation.Region)
                                                  .Where(ip => ip.Status == ipInformation.Status)
-                                                 .FirstOrDefaultAsync()
+                                                 .FirstOrDefaultAsync(cancellationToken)
                                                  .ConfigureAwait(false);
             if (dbIpInformation != null)
             {
@@ -38,18 +39,18 @@ namespace DataAccess
             else
             {
                 var newIpInformationDto = await DbContext.IpInformations
-                                                         .AddAsync(ipInformation)
+                                                         .AddAsync(ipInformation, cancellationToken)
                                                          .ConfigureAwait(false);
-                await DbContext.SaveChangesAsync().ConfigureAwait(false);
+                await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
                 return newIpInformationDto.Entity;
             }
         }
 
-        public async Task SaveAction(ActionTakenDto action)
+        public async Task SaveAction(ActionTakenDto action, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await DbContext.ActionsTaken.AddAsync(action).ConfigureAwait(false);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
+            await DbContext.ActionsTaken.AddAsync(action, cancellationToken).ConfigureAwait(false);
+            await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }

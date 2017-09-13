@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DataAccess.Contracts.Blog
 {
     public interface IPostsDal
     {
-        Task<PostDto> Read(Expression<Func<PostDto, bool>> predicate);
-        Task<PostDto[]> ReadMany(Expression<Func<PostDto, bool>> predicate);
-        Task<ResultSetDto<PostDto>> Search(int pageIndex, int pageSize);
-        Task<ResultSetDto<PostDto>> Search(int pageIndex, int pageSize, string searchTerm);
-        Task<PostDto> ReadPrevious(DateTimeOffset postedOn);
-        Task<PostDto> ReadNext(DateTimeOffset postedOn);
+        Task<PostDto> Read(Expression<Func<PostDto, bool>> predicate, CancellationToken cancellationToken = default(CancellationToken));
+        Task<PostDto[]> ReadMany(Expression<Func<PostDto, bool>> predicate, CancellationToken cancellationToken = default(CancellationToken));
+        Task<ResultSetDto<PostDto>> Search(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken));
+        Task<ResultSetDto<PostDto>> Search(int pageIndex, int pageSize, string searchTerm, CancellationToken cancellationToken = default(CancellationToken));
+        Task<PostDto> ReadPrevious(DateTimeOffset postedOn, CancellationToken cancellationToken = default(CancellationToken));
+        Task<PostDto> ReadNext(DateTimeOffset postedOn, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

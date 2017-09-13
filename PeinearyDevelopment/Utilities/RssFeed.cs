@@ -3,6 +3,7 @@ using Markdig;
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -20,15 +21,15 @@ namespace PeinearyDevelopment.Utilities
             Document.AppendChild(Document.CreateXmlDeclaration("1.0", "UTF-8", null));
         }
 
-        public async Task<string> Generate()
+        public async Task<string> Generate(CancellationToken cancellationToken = default(CancellationToken))
         {
-            Document.AppendChild(await GenerateRssElement().ConfigureAwait(false));
+            Document.AppendChild(await GenerateRssElement(cancellationToken).ConfigureAwait(false));
             var memoryStream = new MemoryStream();
             Document.Save(memoryStream);
             return Encoding.UTF8.GetString(memoryStream.ToArray());
         }
 
-        private async Task<XmlElement> GenerateRssElement()
+        private async Task<XmlElement> GenerateRssElement(CancellationToken cancellationToken = default(CancellationToken))
         {
             var rssElement = Document.CreateElement("rss");
             rssElement.SetAttribute("xmlns:dc", "http://purl.org/dc/elements/1.1/");
@@ -36,11 +37,11 @@ namespace PeinearyDevelopment.Utilities
             rssElement.SetAttribute("xmlns:atom", "http://www.w3.org/2005/Atom");
             rssElement.SetAttribute("version", "2.0");
             rssElement.SetAttribute("xmlns:media", "http://search.yahoo.com/mrss/");
-            rssElement.AppendChild(await GenerateChannelElement().ConfigureAwait(false));
+            rssElement.AppendChild(await GenerateChannelElement(cancellationToken).ConfigureAwait(false));
             return rssElement;
         }
 
-        private async Task<XmlElement> GenerateChannelElement()
+        private async Task<XmlElement> GenerateChannelElement(CancellationToken cancellationToken = default(CancellationToken))
         {
             var channelElement = Document.CreateElement("channel");
             channelElement.AppendChild(GenerateElementWithCData("title", Constants.BlogTitle));
@@ -50,7 +51,7 @@ namespace PeinearyDevelopment.Utilities
             channelElement.AppendChild(GenerateAtomLinkElement());
             channelElement.AppendChild(GenerateElementWithInnerText("ttl", "60"));
 
-            var posts = await PostsDal.Search(0, 15).ConfigureAwait(false);
+            var posts = await PostsDal.Search(0, 15, cancellationToken).ConfigureAwait(false);
             foreach (var post in posts.Results)
             {
                 channelElement.AppendChild(GenerateItemElement(post));

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PeinearyDevelopment.Middleware
@@ -19,6 +20,8 @@ namespace PeinearyDevelopment.Middleware
 
         public async Task Invoke(HttpContext context, ISiteStatisticsDal siteStatisticsDal, IMapper mapper, IMemoryCache memoryCache, HttpClient httpClient)
         {
+            // https://stackoverflow.com/questions/38098564/custom-aspcore-middleware-with-cancellation-token/38098986#38098986
+            var cancellationToken = context?.RequestAborted ?? CancellationToken.None;
             string uid;
             if (!context.Request.Cookies.ContainsKey("uid"))
             {
@@ -35,7 +38,7 @@ namespace PeinearyDevelopment.Middleware
             var userAgent = context.Request.Headers["User-Agent"];
             var referer = context.Request.Headers["Referer"];
             var ip = context.Connection.RemoteIpAddress.ToString();
-            var ipInformation = await GetIpLookupInformation(siteStatisticsDal, mapper, memoryCache, httpClient, ip).ConfigureAwait(false);
+            var ipInformation = await GetIpLookupInformation(siteStatisticsDal, mapper, memoryCache, httpClient, ip, cancellationToken).ConfigureAwait(false);
             await siteStatisticsDal.SaveAction(new ActionTakenDto
             {
                 IpInformationId = ipInformation.Id,
@@ -46,14 +49,14 @@ namespace PeinearyDevelopment.Middleware
                 Url = requestUrl,
                 UserAgent = userAgent,
                 ViewedOn = DateTimeOffset.Now
-            }).ConfigureAwait(false);
+            }, cancellationToken).ConfigureAwait(false);
 
             await _next(context).ConfigureAwait(false);
         }
 
         private string GetRequestUrl(HttpContext context) => string.Concat(context.Request.Scheme, "://", context.Request.Host.ToUriComponent(), context.Request.PathBase.ToUriComponent(), context.Request.Path.ToUriComponent(), context.Request.QueryString.ToUriComponent());
 
-        private async Task<IpInformation> GetIpLookupInformation(ISiteStatisticsDal siteStatisticsDal, IMapper mapper, IMemoryCache memoryCache, HttpClient httpClient, string ip)
+        private async Task<IpInformation> GetIpLookupInformation(ISiteStatisticsDal siteStatisticsDal, IMapper mapper, IMemoryCache memoryCache, HttpClient httpClient, string ip, CancellationToken cancellationToken = default(CancellationToken))
         {
             var cachedIpInformation = memoryCache.Get<IpInformation>(ip);
             if (cachedIpInformation != null)
@@ -62,9 +65,9 @@ namespace PeinearyDevelopment.Middleware
             }
             else
             {
-                var response = await httpClient.GetAsync($"http://extreme-ip-lookup.com/json/{ip}").ConfigureAwait(false);
+                var response = await httpClient.GetAsync($"http://extreme-ip-lookup.com/json/{ip}", cancellationToken).ConfigureAwait(false);
                 var ipInformation = JsonConvert.DeserializeObject<IpInformation>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                var ipInformationDto = await siteStatisticsDal.EnsureExistsAndGet(mapper.Map<IpInformationDto>(ipInformation)).ConfigureAwait(false);
+                var ipInformationDto = await siteStatisticsDal.EnsureExistsAndGet(mapper.Map<IpInformationDto>(ipInformation), cancellationToken).ConfigureAwait(false);
                 var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromDays(1));
                 ipInformation = mapper.Map<IpInformation>(ipInformationDto);
                 memoryCache.Set(ip, ipInformation, cacheEntryOptions);
