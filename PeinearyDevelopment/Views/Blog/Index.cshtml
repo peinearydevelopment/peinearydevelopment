@@ -45,10 +45,10 @@
 }
 
 @section schema {
-<!--
-    https://developers.google.com/search/docs/guides/intro-structured-data?visit_id=1-636398812205869023-2120543655&hl=en&rd=1
-    http://schema.org/WebSite
--->
+    <!--
+        https://developers.google.com/search/docs/guides/intro-structured-data?visit_id=1-636398812205869023-2120543655&hl=en&rd=1
+        http://schema.org/WebSite
+    -->
     <script type="application/ld+json">
         {
         "@@context": "http://schema.org",
@@ -60,10 +60,7 @@
     </script>
 }
 
-@if (Model.PageIndex > 0)
-{
-    @Html.Partial("_Pager")
-}
+@Html.Partial("_Pager", Model, new ViewDataDictionary(ViewData) { { "IsTopPager", bool.TrueString } })
 
 <div class="container center">
     <ul class="posts-summaries column left">
@@ -88,4 +85,4 @@
     </ul>
 </div>
 
-@Html.Partial("_Pager")
+@Html.Partial("_Pager", Model, new ViewDataDictionary(ViewData) { { "IsTopPager", bool.FalseString } })

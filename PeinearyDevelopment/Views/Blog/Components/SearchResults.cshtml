@@ -1,0 +1,13 @@
+﻿@using Contracts;
+@using Contracts.Blog;
+
+@model ResultSet<PostSummary>
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<ul>
+    @foreach (var post in Model.Results)
+    {
+        <li>@post.Title</li>
+    }
+</ul>

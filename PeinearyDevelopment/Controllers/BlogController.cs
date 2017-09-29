@@ -44,5 +44,11 @@ namespace PeinearyDevelopment.Controllers
 
         public async Task<ContentResult> Rss(CancellationToken cancellationToken = default(CancellationToken)) => Content(await RssFeed.Generate(cancellationToken).ConfigureAwait(false), "application/xml");
         public async Task<ContentResult> Sitemap(CancellationToken cancellationToken = default(CancellationToken)) => Content(await SitemapGenerator.Generate(cancellationToken).ConfigureAwait(false), "application/xml");
+
+        public async Task<IActionResult> Search([FromQuery] string searchTerm, CancellationToken cancellationToken = default(CancellationToken))
+        {
+           var searchResults = await PostsDal.Search(0, 10, searchTerm, cancellationToken).ConfigureAwait(false);
+            return ViewComponent("SearchResults", Mapper.Map<ResultSet<PostSummary>>(searchResults));
+        }
     }
 }

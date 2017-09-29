@@ -1,0 +1,19 @@
+.search-results {
+  color: $text-white;
+  font-size: 1.5rem;
+  justify-content: flex-start;
+  line-height: 2.5rem;
+  padding: 0 !important;
+  position: absolute;
+  top: 32vh;
+
+  > ul {
+    background-color: $black;
+    border-radius: 1rem 1rem 0 0;
+
+    > li {
+      border-bottom: 1px solid $white;
+      text-align: center;
+    }
+  }
+}

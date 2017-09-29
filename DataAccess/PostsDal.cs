@@ -97,6 +97,8 @@ namespace DataAccess
 
             var postsCountTask = DbContext.Posts
                                           .AsNoTracking()
+                                          .Where(p => p.Title.Contains(searchTerm) || p.MarkdownContent.Contains(searchTerm))
+                                          .Where(p => p.PostedOn != null)
                                           .CountAsync(cancellationToken);
 
             await Task.WhenAll(resultsTask, postsCountTask).ConfigureAwait(false);

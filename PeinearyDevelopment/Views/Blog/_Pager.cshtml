@@ -1,6 +1,7 @@
 ﻿@using Contracts;
 @model ResultSet
 
+@{ var searchTerm = string.Empty; }
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @if (Model.TotalPageCount > 0)
@@ -20,9 +21,18 @@
             {
                 <div class="left third-width"></div>
             }
-            <div class="center third-width">Page @(Model.PageIndex + 1) of @Model.TotalPageCount</div>
+            <div class="center third-width">
+                @if (bool.TrueString == ViewData["IsTopPager"].ToString())
+                {
+                    <input asp-for="@searchTerm" id="searchbox" type="search" name="searchTerm" value="@searchTerm" placeholder="Search" />
+                }
+                else
+                {
+                    @Html.Raw($"Page {Model.PageIndex + 1} of {Model.TotalPageCount}")
+                }
+            </div>
             @if (!Model.IsOnLastPage)
-            {
+                {
                 <a class="button right third-width" asp-controller="Blog" asp-action="Index" asp-route-id=@(Model.PageIndex + 1)>
                     Older Posts
                     <svg>
@@ -36,4 +46,42 @@
             }
         </div>
     </div>
+
+    @if (bool.TrueString == ViewData["IsTopPager"].ToString())
+    {
+        <div id="search-results" class="container column search-results"></div>
+    }
+}
+
+@if (bool.FalseString == ViewData["IsTopPager"].ToString())
+{
+    <script>
+        (function () {
+            document.addEventListener('DOMContentLoaded', (event) => registerSearchListener(), false);
+
+            var typewatch = function () {
+                var timer = 0;
+                return (callback, ms) => {
+                    clearTimeout(timer);
+                    timer = setTimeout(callback, ms);
+                }
+            }();
+
+            function registerSearchListener() {
+                document.getElementById('searchbox')
+                    .addEventListener('keydown', function (event) {
+                        typewatch(() => search(this.value), 500);
+                    });
+            }
+
+            function search(searchTerm) {
+                fetch(`/blog/search?searchTerm=${searchTerm}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        console.log(html);
+                        document.getElementById('search-results').innerHTML = html;
+                    });
+            }
+        })();
+    </script>
 }
