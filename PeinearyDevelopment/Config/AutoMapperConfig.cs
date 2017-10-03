@@ -5,6 +5,7 @@ using Contracts.Blog;
 using DataAccess.Contracts;
 using DataAccess.Contracts.Blog;
 using System;
+using System.Linq;
 
 namespace PeinearyDevelopment.Config
 {
@@ -15,7 +16,8 @@ namespace PeinearyDevelopment.Config
             var mapperConfigurationExpression = new MapperConfigurationExpression();
 
             mapperConfigurationExpression.CreateMap<PostDto, Post>()
-                                         .ForMember(contract => contract.PostedOn, conf => conf.MapFrom(dto => dto.PostedOn.Value));
+                                         .ForMember(contract => contract.PostedOn, conf => conf.MapFrom(dto => dto.PostedOn.Value))
+                                         .ForMember(contract => contract.Comments, conf => conf.MapFrom(dto => dto.Comments.Select(comment => comment.Comment)));
             mapperConfigurationExpression.CreateMap<PostDto, PostSummary>()
                                          .ForMember(contract => contract.ContentSummary, conf => conf.MapFrom(dto => (dto.MarkdownContent.Length > 255) ? dto.MarkdownContent.Substring(0, 255) : dto.MarkdownContent))
                                          .ForMember(contract => contract.CommentsCount, conf => conf.MapFrom(dto => dto.Comments.Count))
@@ -34,6 +36,7 @@ namespace PeinearyDevelopment.Config
                                          .ForMember(dto => dto.IpType, conf => conf.MapFrom(contract => contract.IpType.ToString()));
             mapperConfigurationExpression.CreateMap<IpInformationDto, IpInformation>()
                                          .ForMember(contract => contract.IpType, dto => dto.MapFrom(contract => (IpType)Enum.Parse(typeof(IpType), contract.IpType)));
+            mapperConfigurationExpression.CreateMap<CommentDto, Comment>();
 
             var mapperConfiguration = new MapperConfiguration(mapperConfigurationExpression);
             return new Mapper(mapperConfiguration);

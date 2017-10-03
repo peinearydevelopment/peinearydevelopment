@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataAccess.Contracts.Blog
 {
@@ -9,6 +10,11 @@ namespace DataAccess.Contracts.Blog
         public string Email { get; set; }
         public string WebsiteUrl { get; set; }
         public string MarkdownText { get; set; }
+        public DateTimeOffset CreatedOn { get; set; }
+        public DateTimeOffset? LastUpdatedOn { get; set; }
+        public DateTimeOffset? ApprovedOn { get; set; }
+        public string Uid { get; set; }
+
         public ICollection<PostCommentDto> Posts { get; set; }
     }
 }
