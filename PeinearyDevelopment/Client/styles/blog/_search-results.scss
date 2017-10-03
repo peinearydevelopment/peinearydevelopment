@@ -1,8 +1,5 @@
 .search-results {
-  color: $text-white;
-  font-size: 1.5rem;
   justify-content: flex-start;
-  line-height: 2.5rem;
   padding: 0 !important;
   position: absolute;
   top: 32vh;
@@ -14,6 +11,12 @@
     > li {
       border-bottom: 1px solid $white;
       text-align: center;
+
+      > a {
+        color: $text-white;
+        font-size: 1.5rem;
+        line-height: 2.5rem;
+      }
     }
   }
 }

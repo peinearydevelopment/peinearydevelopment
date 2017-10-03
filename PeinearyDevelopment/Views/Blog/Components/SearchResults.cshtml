@@ -8,6 +8,10 @@
 <ul>
     @foreach (var post in Model.Results)
     {
-        <li>@post.Title</li>
+        <li>
+            <a asp-controller="Blog" asp-action="Post" asp-route-id=@post.Slug>
+                @post.Title
+            </a>
+        </li>
     }
 </ul>
