@@ -4,6 +4,7 @@ namespace Contracts.Blog
 {
     public class Post : IPostable
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string MarkdownContent { get; set; }
         public string HTMLContent { get; set; }

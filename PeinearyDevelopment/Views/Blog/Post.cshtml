@@ -85,22 +85,7 @@
         @Html.Raw(Markdown.ToHtml(Model.MarkdownContent))
     </section>
 
-    <div class="column comments">
-        @foreach (var comment in Model.Comments)
-        {
-            <h6>
-                @if (!string.IsNullOrWhiteSpace(comment.WebsiteUrl))
-                {
-                    <a href="@comment.WebsiteUrl">@comment.DisplayName</a>
-                }
-                else
-                {
-                    @comment.DisplayName
-                }
-            </h6>
-            <p>@Html.Raw(Markdown.ToHtml(comment.MarkdownText))</p>
-        }
-    </div>
+@Html.Partial("_Comments", Model)
 </div>
 
 @if (Model.PreviousPost != null || Model.NextPost != null)

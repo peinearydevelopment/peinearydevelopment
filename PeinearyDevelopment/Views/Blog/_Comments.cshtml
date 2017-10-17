@@ -1,0 +1,27 @@
+﻿@using Markdig;
+@using Contracts.Blog;
+@model Post
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="column comments container center">
+    @Html.Partial("_CommentForm", new Comment { PostId = Model.Id })
+
+    <div class="container left">
+        @foreach (var comment in Model.Comments)
+        {
+            <h6>
+                @if (!string.IsNullOrWhiteSpace(comment.WebsiteUrl))
+                {
+                    <a href="@comment.WebsiteUrl">@comment.DisplayName</a>
+                }
+                else
+                {
+                    @comment.DisplayName
+                }
+            </h6>
+            <p>@Html.Raw(Markdown.ToHtml(comment.MarkdownText))</p>
+        }
+    </div>
+</div>
+

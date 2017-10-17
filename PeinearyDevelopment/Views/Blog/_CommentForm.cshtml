@@ -1,0 +1,72 @@
+﻿@using Contracts.Blog;
+@model Comment
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using (Html.BeginForm("Comment", "Blog", FormMethod.Post, new { @class = "column container", id = "comment-form" }))
+{
+    <div class="column full-width">
+        <label asp-for="DisplayName"></label>
+        <input asp-for="DisplayName" type="text" />
+    </div>
+
+    <div class="column full-width">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" type="email" />
+    </div>
+
+    <div class="column full-width">
+        <label asp-for="WebsiteUrl"></label>
+        <input asp-for="WebsiteUrl" type="url" />
+    </div>
+
+    <div class="column full-width">
+        <label asp-for="MarkdownText"></label>
+        <textarea asp-for="MarkdownText"></textarea>
+    </div>
+
+    <input asp-for="PostId" hidden />
+    <input type="submit" style="display:none;" />
+}
+
+<script>
+        (function () {
+            document.addEventListener('DOMContentLoaded', (event) => registerSearchListener(), false);
+            function submitForm(e) {
+                if (e.checkValidity()) {
+                    var a = '';
+                    for (key in e.elements) {
+                        if (e.elements.hasOwnProperty(key) && isNaN(parseInt(key, 10))) {
+                            if (a) {
+                                a += '&';
+                            }
+                            a += key + '=' + encodeURIComponent(e.elements[key].value);
+                        }
+                    }
+
+                    fetch(`/blog/comment`, { body: a, credentials: 'same-origin', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, method: 'POST' })
+                        .then(response => console.log(response))
+                        .then(html => {
+                        });
+                } else {
+                    var a = e.querySelectorAll('input[type="submit"]');
+                    a[0].click();
+                }
+
+            }
+            function registerSearchListener() {
+                document.getElementById('comment-form').addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    submitForm(event.target);
+                }, false);
+
+                document.getElementById('MarkdownText')
+                    .addEventListener('keydown', function (event) {
+                        if (event.which == 13 && !event.shiftKey) {
+                            var element = document.getElementById('comment-form');
+                            submitForm(element);
+                        }
+                    });
+            }
+        })();
+</script>

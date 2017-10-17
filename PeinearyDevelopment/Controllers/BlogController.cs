@@ -15,13 +15,15 @@ namespace PeinearyDevelopment.Controllers
         private IMapper Mapper { get; }
         private IRssFeed RssFeed { get; }
         private ISitemap SitemapGenerator { get; }
+        private ICommentsDal CommentsDal { get; }
 
-        public BlogController(IPostsDal postsDal, IMapper mapper, IRssFeed rssFeed, ISitemap sitemapGenerator)
+        public BlogController(IPostsDal postsDal, IMapper mapper, IRssFeed rssFeed, ISitemap sitemapGenerator, ICommentsDal commentsDal)
         {
             PostsDal = postsDal;
             Mapper = mapper;
             RssFeed = rssFeed;
             SitemapGenerator = sitemapGenerator;
+            CommentsDal = commentsDal;
         }
 
         public async Task<IActionResult> Index(int id = 0, [FromQuery] int pageSize = 5, CancellationToken cancellationToken = default(CancellationToken))
@@ -49,6 +51,16 @@ namespace PeinearyDevelopment.Controllers
         {
            var searchResults = await PostsDal.Search(0, 10, searchTerm, cancellationToken).ConfigureAwait(false);
             return ViewComponent("SearchResults", Mapper.Map<ResultSet<PostSummary>>(searchResults));
+        }
+
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Comment(Comment comment, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var commentDto = Mapper.Map<CommentDto>(comment);
+            commentDto.Uid = HttpContext.Request.Cookies["uid"];
+            commentDto = await CommentsDal.Create(commentDto, cancellationToken).ConfigureAwait(false);
+            await PostsDal.AddComment(comment.PostId, commentDto, cancellationToken).ConfigureAwait(false);
+            return Ok(comment);
         }
     }
 }

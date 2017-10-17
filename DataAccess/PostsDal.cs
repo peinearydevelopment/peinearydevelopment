@@ -109,5 +109,11 @@ namespace DataAccess
                 TotalResults = postsCountTask.Result
             };
         }
+
+        public async Task AddComment(int postId, CommentDto comment, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await DbContext.PostComments.AddAsync(new PostCommentDto { CommentId = comment.Id, PostId = postId }, cancellationToken).ConfigureAwait(false);
+            await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        }
     }
 }

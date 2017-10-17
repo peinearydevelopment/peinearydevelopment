@@ -36,6 +36,7 @@ namespace PeinearyDevelopment.Config
                                          .ForMember(dto => dto.IpType, conf => conf.MapFrom(contract => contract.IpType.ToString()));
             mapperConfigurationExpression.CreateMap<IpInformationDto, IpInformation>()
                                          .ForMember(contract => contract.IpType, dto => dto.MapFrom(contract => (IpType)Enum.Parse(typeof(IpType), contract.IpType)));
+            mapperConfigurationExpression.CreateMap<Comment, CommentDto>();
             mapperConfigurationExpression.CreateMap<CommentDto, Comment>();
 
             var mapperConfiguration = new MapperConfiguration(mapperConfigurationExpression);
