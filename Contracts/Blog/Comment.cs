@@ -17,5 +17,6 @@ namespace Contracts.Blog
         public DateTimeOffset? LastUpdatedOn { get; set; }
         public DateTimeOffset? ApprovedOn { get; set; }
         public int PostId { get; set; }
+        public string Uid { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace DataAccess.Contracts.Blog
 {
@@ -14,7 +13,10 @@ namespace DataAccess.Contracts.Blog
         public DateTimeOffset? LastUpdatedOn { get; set; }
         public DateTimeOffset? ApprovedOn { get; set; }
         public string Uid { get; set; }
+        public int PostId { get; set; }
+        public int? CommentRespondedToId { get; set; }
 
-        public ICollection<PostCommentDto> Posts { get; set; }
+        public virtual PostDto Post { get; set; }
+        public virtual CommentDto CommentRespondedTo { get; set; }
     }
 }

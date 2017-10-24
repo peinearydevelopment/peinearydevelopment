@@ -12,8 +12,6 @@ namespace DataAccess
         public DbSet<IpInformationDto> IpInformations { get; set; }
         public DbSet<ActionTakenDto> ActionsTaken { get; set; }
 
-        public DbSet<PostCommentDto> PostComments { get; set; }
-
         public PdDbContext()
         {
         }
@@ -42,20 +40,6 @@ namespace DataAccess
                 entity.HasOne(pt => pt.Tag)
                       .WithMany(pt => pt.Posts)
                       .HasForeignKey(pt => pt.TagId);
-            });
-
-            modelBuilder.Entity<PostCommentDto>(entity =>
-            {
-                entity.ToTable("PostsComments", "blog")
-                      .HasKey(pt => new { pt.PostId, pt.CommentId });
-
-                entity.HasOne(pt => pt.Post)
-                      .WithMany(pt => pt.Comments)
-                      .HasForeignKey(pt => pt.PostId);
-
-                entity.HasOne(pt => pt.Comment)
-                      .WithMany(pt => pt.Posts)
-                      .HasForeignKey(pt => pt.CommentId);
             });
         }
     }

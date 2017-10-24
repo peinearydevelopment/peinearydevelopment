@@ -78,7 +78,6 @@
                 fetch(`/blog/search?searchTerm=${searchTerm}`)
                     .then(response => response.text())
                     .then(html => {
-                        console.log(html);
                         document.getElementById('search-results').innerHTML = html;
                     });
             }

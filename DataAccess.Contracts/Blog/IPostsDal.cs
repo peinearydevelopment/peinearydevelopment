@@ -13,6 +13,5 @@ namespace DataAccess.Contracts.Blog
         Task<ResultSetDto<PostDto>> Search(int pageIndex, int pageSize, string searchTerm, CancellationToken cancellationToken = default(CancellationToken));
         Task<PostDto> ReadPrevious(DateTimeOffset postedOn, CancellationToken cancellationToken = default(CancellationToken));
         Task<PostDto> ReadNext(DateTimeOffset postedOn, CancellationToken cancellationToken = default(CancellationToken));
-        Task AddComment(int postId, CommentDto comment, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

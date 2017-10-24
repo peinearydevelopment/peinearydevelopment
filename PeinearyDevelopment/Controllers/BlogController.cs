@@ -4,6 +4,7 @@ using Contracts.Blog;
 using DataAccess.Contracts.Blog;
 using Microsoft.AspNetCore.Mvc;
 using PeinearyDevelopment.Utilities;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,6 +41,10 @@ namespace PeinearyDevelopment.Controllers
             var post = Mapper.Map<Post>(await PostsDal.Read(p => p.Slug == id, cancellationToken).ConfigureAwait(false));
             post.PreviousPost = Mapper.Map<NavigationPost>(await PostsDal.ReadPrevious(post.PostedOn, cancellationToken).ConfigureAwait(false));
             post.NextPost = Mapper.Map<NavigationPost>(await PostsDal.ReadNext(post.PostedOn, cancellationToken).ConfigureAwait(false));
+            post.Comments = post.Comments
+                                .Where(comment => comment.ApprovedOn != null || comment.Uid == HttpContext.Request.Cookies["uid"])
+                                .OrderByDescending(comment => comment.CreatedOn)
+                                .ToArray();
             ViewBag.Title = post.Title;
             return View(post);
         }
@@ -59,8 +64,7 @@ namespace PeinearyDevelopment.Controllers
             var commentDto = Mapper.Map<CommentDto>(comment);
             commentDto.Uid = HttpContext.Request.Cookies["uid"];
             commentDto = await CommentsDal.Create(commentDto, cancellationToken).ConfigureAwait(false);
-            await PostsDal.AddComment(comment.PostId, commentDto, cancellationToken).ConfigureAwait(false);
-            return Ok(comment);
+            return PartialView("_Comment", Mapper.Map<Comment>(commentDto));
         }
     }
 }

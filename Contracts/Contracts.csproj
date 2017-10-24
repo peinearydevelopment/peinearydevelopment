@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="Roslynator.Analyzers" Version="1.4.0" />
+    <PackageReference Include="Roslynator.Analyzers" Version="1.5.0" />
   </ItemGroup>
 
 </Project>

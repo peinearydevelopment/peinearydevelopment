@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DataAccess.Contracts.Blog;
 using System.Threading;
+using System;
 
 namespace DataAccess
 {
@@ -12,6 +13,7 @@ namespace DataAccess
 
         public async Task<CommentDto> Create(CommentDto comment, CancellationToken cancellationToken = default(CancellationToken))
         {
+            comment.CreatedOn = DateTimeOffset.Now;
             var commentDto = await DbContext.Comments.AddAsync(comment, cancellationToken).ConfigureAwait(false);
             await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             return commentDto.Entity;

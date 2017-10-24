@@ -22,7 +22,6 @@ namespace DataAccess
                             .Include(p => p.Tags)
                                 .ThenInclude(pt => pt.Tag)
                             .Include(p => p.Comments)
-                                .ThenInclude(pc => pc.Comment)
                             .FirstOrDefaultAsync(predicate, cancellationToken);
         }
 
@@ -33,7 +32,6 @@ namespace DataAccess
                             .Include(p => p.Tags)
                                 .ThenInclude(pt => pt.Tag)
                             .Include(p => p.Comments)
-                                .ThenInclude(pc => pc.Comment)
                             .Where(predicate)
                             .ToArrayAsync(cancellationToken);
         }
@@ -108,12 +106,6 @@ namespace DataAccess
                 Results = resultsTask.Result,
                 TotalResults = postsCountTask.Result
             };
-        }
-
-        public async Task AddComment(int postId, CommentDto comment, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            await DbContext.PostComments.AddAsync(new PostCommentDto { CommentId = comment.Id, PostId = postId }, cancellationToken).ConfigureAwait(false);
-            await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿@using Markdig;
+@using Contracts.Blog;
+@model Comment
+
+<div class="comment">
+    <h6>
+        @if (!string.IsNullOrWhiteSpace(Model.WebsiteUrl))
+        {
+            <a href="@Model.WebsiteUrl">@Model.DisplayName</a>
+        }
+        else
+        {
+            @Model.DisplayName
+        }
+    </h6>
+    @if (!string.IsNullOrWhiteSpace(Model.MarkdownText))
+    {
+        @Html.Raw(Markdown.ToHtml(Model.MarkdownText))
+    }
+</div>
