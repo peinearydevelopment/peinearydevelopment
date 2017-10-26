@@ -12,7 +12,7 @@ namespace DataAccess
         public DbSet<IpInformationDto> IpInformations { get; set; }
         public DbSet<ActionTakenDto> ActionsTaken { get; set; }
 
-        public PdDbContext()
+        private PdDbContext()
         {
         }
 

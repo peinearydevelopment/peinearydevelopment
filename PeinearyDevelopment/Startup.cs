@@ -38,6 +38,7 @@ namespace PeinearyDevelopment
             }
 
             app.UseMiddleware<UidCookieMiddleware>()
+               .UseMiddleware<ImagesMiddleware>()
                .UseMvc(routes => routes.MapRoute(name: "default", template: "{controller=Blog}/{action=Index}/{id?}"));
         }
     }

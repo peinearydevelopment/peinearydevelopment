@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PeinearyDevelopment.Services;
 using PeinearyDevelopment.Utilities;
 using System.Net.Http;
 
@@ -23,10 +24,11 @@ namespace PeinearyDevelopment.Config
             services.AddMvc();
             services.AddMemoryCache();
 
-            services.AddDbContext<PdDbContext>(options => options.UseSqlServer(configuration["ConnectionStrings:PdDbContextConnectionString"]))
+            services.AddDbContextPool<PdDbContext>(options => options.UseSqlServer(configuration["ConnectionStrings:PdDbContextConnectionString"]))
                     .AddSingleton(AutoMapperConfig.Configure())
                     .AddSingleton(configuration)
                     .AddSingleton(new HttpClient())
+                    .AddScoped<IFilesService, FilesService>()
                     .AddScoped<IPostsDal, PostsDal>()
                     .AddScoped<ICommentsDal, CommentsDal>()
                     .AddScoped<IRssFeed, RssFeed>()

@@ -82,11 +82,12 @@ namespace DataAccess
 
         public async Task<ResultSetDto<PostDto>> Search(int pageIndex, int pageSize, string searchTerm, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var likeSearchTerm = $"%{searchTerm}%";
             var resultsTask = DbContext.Posts
                                        .AsNoTracking()
                                        .Include(p => p.Tags)
                                             .ThenInclude(pt => pt.Tag)
-                                       .Where(p => p.Title.Contains(searchTerm) || p.MarkdownContent.Contains(searchTerm))
+                                       .Where(p => EF.Functions.Like(p.Title, likeSearchTerm) || EF.Functions.Like(p.MarkdownContent, likeSearchTerm))
                                        .Where(p => p.PostedOn != null)
                                        .OrderByDescending(p => p.PostedOn)
                                        .Skip(pageIndex * pageSize)
@@ -95,7 +96,7 @@ namespace DataAccess
 
             var postsCountTask = DbContext.Posts
                                           .AsNoTracking()
-                                          .Where(p => p.Title.Contains(searchTerm) || p.MarkdownContent.Contains(searchTerm))
+                                          .Where(p => EF.Functions.Like(p.Title, likeSearchTerm) || EF.Functions.Like(p.MarkdownContent, likeSearchTerm))
                                           .Where(p => p.PostedOn != null)
                                           .CountAsync(cancellationToken);
 
