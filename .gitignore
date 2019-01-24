@@ -9,3 +9,5 @@ node_modules/
 **/wwwroot/**/*.css.map
 **/wwwroot/**/*.svg
 **/wwwroot/**/*.txt
+**/Migrations/**/*.*
+db/

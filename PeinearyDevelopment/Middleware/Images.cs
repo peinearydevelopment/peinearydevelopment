@@ -25,6 +25,7 @@ namespace PeinearyDevelopment.Middleware
                 var fileReferenceId = GetFileName(requestUrl);
                 var fileContents = await filesService.GetFileContents(fileReferenceId).ConfigureAwait(false);
                 var contentType = GetContentType(fileReferenceId);
+                context.Response.Headers.Append("Cache-Control", "max-age=31536000");
                 await new FileContentResultExecutor(loggerFactory).ExecuteAsync(new ActionContext(context, new RouteData(), new ActionDescriptor()), new FileContentResult(fileContents, contentType)).ConfigureAwait(false);
             }
             else

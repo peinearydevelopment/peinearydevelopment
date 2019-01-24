@@ -42,7 +42,7 @@ namespace PeinearyDevelopment.Middleware
             await siteStatisticsDal.SaveAction(new ActionTakenDto
             {
                 IpInformationId = ipInformation.Id,
-                ActionType = ActionType.Request.ToString(),
+                ActionType = nameof(ActionType.Request),
                 Body = await GetRequestBody(context).ConfigureAwait(false),
                 Referer = referer,
                 Uid = uid,

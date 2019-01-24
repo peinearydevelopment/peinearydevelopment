@@ -1,0 +1,11 @@
+# https://docs.docker.com/engine/examples/dotnetcore/#prerequisites
+FROM microsoft/mssql-server-linux
+
+COPY db/Blog.mdf .
+
+ENV ACCEPT_EULA Y
+ENV SA_PASSWORD Test!234
+
+EXPOSE 1433 1433
+
+# https://github.com/twright-msft/mssql-node-docker-demo-app

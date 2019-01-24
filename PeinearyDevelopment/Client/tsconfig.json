@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "module": "commonjs",
-    "noEmit": true,
+    "noEmit": false,
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "target": "es2015"
+    "target": "es2015",
+    "types": [
+    ]
   },
   "include": [
-    "build/**/*"
+    "scripts/**/*"
   ]
 }
